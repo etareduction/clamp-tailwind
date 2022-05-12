@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "bin": "dist/index.js",
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",

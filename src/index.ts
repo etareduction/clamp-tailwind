@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as fs from 'node:fs/promises'
 import * as path from 'path'
 import { transformCode } from './transformCode.js'
