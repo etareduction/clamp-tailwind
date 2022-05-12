@@ -1,7 +1,7 @@
 {
   "name": "clamp-tailwind",
   "version": "1.0.0",
-  "description": "",
+  "description": "CLI tool that clamps your react/tailwind codebase classnames into CSS modules.",
   "main": "dist/index.js",
   "bin": "dist/index.js",
   "type": "module",
@@ -9,8 +9,8 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "dev": "npx tsc --watch"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["tailwind", "react", "CLI", "css modules", "babel", "transform sources"],
+  "author": "GamerZero <contact@gamerzero.dev> (https://github.com/WildlandHerald)",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.5.0",
