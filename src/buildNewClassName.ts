@@ -1,5 +1,5 @@
-import { backtrackElements } from './backtrackElements'
-import { countNamesakeSiblings } from './countNamesakeSiblings'
+import { backtrackElements } from './backtrackElements.js'
+import { countNamesakeSiblings } from './countNamesakeSiblings.js'
 import { NodePath } from '@babel/traverse'
 import { JSXElement } from '@babel/types'
 

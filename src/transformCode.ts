@@ -1,10 +1,10 @@
 import * as t from '@babel/types'
-import { parseTSX } from './utils/parseTSX'
-import { traverse } from './utils/babelTypingsFix'
-import { generateFormattedCode } from './utils/generateFormattedCode'
-import { buildNewClassName } from './buildNewClassName'
-import { addStylesImport, buildStylesExpression } from './astNodeBuilders'
-import { ClassNames, generateCssModule } from './generateCssModule'
+import { parseTSX } from './utils/parseTSX.js'
+import { traverse } from './utils/babelTypingsFix.js'
+import { generateFormattedCode } from './utils/generateFormattedCode.js'
+import { buildNewClassName } from './buildNewClassName.js'
+import { addStylesImport, buildStylesExpression } from './astNodeBuilders.js'
+import { ClassNames, generateCssModule } from './generateCssModule.js'
 
 function transformCode(code: string): {
     componentName: string

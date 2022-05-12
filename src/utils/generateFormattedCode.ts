@@ -1,5 +1,5 @@
 import prettier from 'prettier'
-import { generate } from './babelTypingsFix'
+import { generate } from './babelTypingsFix.js'
 import { Node } from '@babel/types'
 
 const generateFormattedCode = (ast: Node): string =>
