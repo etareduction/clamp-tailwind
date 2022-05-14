@@ -1,3 +1,5 @@
+## **WARNING!** Currently it overwrites source files, that's intentional. Make sure to save backups!
+
 ### How it works:
 
 - Install the CLI tool from NPM registry:
