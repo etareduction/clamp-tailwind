@@ -12,21 +12,28 @@ async function traverseDirectory(pathToDir: string) {
     for (let i = 0; i < fileNames.length; i++) {
         const fileName = fileNames[i]
         const pathToFile = path.resolve(pathToDir, fileName)
-        const stat = await fs.stat(pathToFile)
+        const stats = await fs.stat(pathToFile)
 
-        if (stat.isDirectory()) {
-            traverseDirectory(pathToFile).then()
-            return
-        }
+        if (stats.isDirectory()) traverseDirectory(pathToFile).then()
+        else handleFile(fileName, pathToFile, pathToDir).then()
+    }
+}
 
-        if (!(path.extname(pathToFile) === '.tsx')) return
+async function handleFile(
+    fileName: string,
+    pathToFile: string,
+    pathToDir: string
+) {
+    // TODO: include .jsx extension and test that proves it's working
+    if (!(path.extname(pathToFile) === '.tsx')) return
 
-        const fileContents = await fs.readFile(pathToFile, {
-            encoding: 'utf-8'
-        })
+    const fileContents = await fs.readFile(pathToFile, {
+        encoding: 'utf-8'
+    })
 
-        let { componentName, tsx, moduleCss } = transformCode(fileContents)
+    let { componentName, tsx, moduleCss } = transformCode(fileContents)
 
+    if (moduleCss) {
         console.log(`Writing to ${fileName} and ${componentName}.module.css`)
 
         fs.writeFile(pathToFile, tsx).then()
