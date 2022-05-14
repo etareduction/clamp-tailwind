@@ -10,9 +10,12 @@ const buildNewClassName = (
     const names = backtrackElements(elementPath)
     const namesakeSiblingsCount = countNamesakeSiblings(elementPath)
 
+    const currentNodeName = () =>
+        name + (namesakeSiblingsCount > 0 ? namesakeSiblingsCount : '')
+
     return names[0]
-        ? names.reverse().join('-') + '-'
-        : '' + name + (namesakeSiblingsCount > 0 ? namesakeSiblingsCount : '')
+        ? names.reverse().join('-') + '-' + currentNodeName()
+        : currentNodeName()
 }
 
 export { buildNewClassName }
