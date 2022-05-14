@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "dev": "npx tsc --watch"
+    "dev": "npx tsc --watch --sourceMap"
   },
   "keywords": ["tailwind", "react", "CLI", "css modules", "babel", "transform sources"],
   "author": "GamerZero <contact@gamerzero.dev> (https://github.com/WildlandHerald)",
