@@ -3,8 +3,11 @@ import * as fs from 'node:fs/promises'
 import * as path from 'path'
 import { transformCode } from './transformCode.js'
 
-const [, , dirPath] = process.argv
-traverseDirectory(path.resolve(process.cwd(), dirPath)).then()
+const [, , ...dirPaths] = process.argv
+
+for (let i = 0; i < dirPaths.length; i++) {
+    traverseDirectory(path.resolve(process.cwd(), dirPaths[i])).then()
+}
 
 async function traverseDirectory(pathToDir: string) {
     const fileNames = await fs.readdir(pathToDir)
