@@ -3,8 +3,13 @@ import { parseTSX } from './utils/parseTSX.js'
 import { traverse } from './utils/babelTypingsFix.js'
 import { generateFormattedCode } from './utils/generateFormattedCode.js'
 import { buildNewClassName } from './buildNewClassName.js'
-import { addStylesImport, buildStylesExpression } from './astNodeBuilders.js'
+import {
+    addStylesImport,
+    buildMemberExpression,
+    buildStylesExpression
+} from './astNodeBuilders.js'
 import { ClassNames, generateCssModule } from './generateCssModule.js'
+import { CallExpression, StringLiteral } from '@babel/types'
 
 function transformCode(code: string): {
     componentName: string
@@ -28,8 +33,12 @@ function transformCode(code: string): {
     traverse(ast, {
         JSXAttribute(path) {
             if (
-                !t.isStringLiteral(path.node.value) ||
-                !(path.node.name.name === 'className')
+                !(path.node.name.name === 'className') ||
+                (!t.isStringLiteral(path.node.value) &&
+                    !(
+                        t.isJSXExpressionContainer(path.node.value) &&
+                        t.isCallExpression(path.node.value.expression)
+                    ))
             )
                 return
 
@@ -44,12 +53,35 @@ function transformCode(code: string): {
                 jsxElementName.name
             )
 
+            let oldClassName: string
+
+            if (t.isStringLiteral(path.node.value)) {
+                oldClassName = path.node.value.value
+                path.node.value = buildStylesExpression(newClassName)
+            } else {
+                const callExpression = path.node.value
+                    .expression as CallExpression
+
+                oldClassName = callExpression.arguments
+                    .filter((argument): argument is StringLiteral =>
+                        t.isStringLiteral(argument)
+                    )
+                    .map(argument => argument.value)
+                    .join(' ')
+
+                callExpression.arguments = callExpression.arguments.filter(
+                    argument => !t.isStringLiteral(argument)
+                )
+
+                callExpression.arguments.unshift(
+                    buildMemberExpression(newClassName)
+                )
+            }
+
             classNames.push({
-                oldClassName: path.node.value.value,
+                oldClassName,
                 newClassName
             })
-
-            path.node.value = buildStylesExpression(newClassName)
         }
     })
 

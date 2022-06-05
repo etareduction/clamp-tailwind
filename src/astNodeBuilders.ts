@@ -9,13 +9,14 @@ const addStylesImport = (statements: t.Statement[], fileName: string) =>
         )
     )
 
-const buildStylesExpression = (newClassName: string): JSXExpressionContainer =>
-    t.jsxExpressionContainer(
-        t.memberExpression(
-            t.identifier('styles'),
-            t.stringLiteral(newClassName),
-            true
-        )
+const buildMemberExpression = (newClassName: string): t.MemberExpression =>
+    t.memberExpression(
+        t.identifier('styles'),
+        t.stringLiteral(newClassName),
+        true
     )
 
-export { addStylesImport, buildStylesExpression }
+const buildStylesExpression = (newClassName: string): JSXExpressionContainer =>
+    t.jsxExpressionContainer(buildMemberExpression(newClassName))
+
+export { addStylesImport, buildStylesExpression, buildMemberExpression }
