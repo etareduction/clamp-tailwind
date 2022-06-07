@@ -88,7 +88,13 @@ function transformCode(code: string): {
     addStylesImport(ast.program.body, componentName)
 
     const outputCode = generateFormattedCode(ast)
-    const outputCss = generateCssModule(classNames)
+
+    // deduplicate class names
+    const deduplicatedClassNames = [
+        ...new Map(classNames.map(e => [JSON.stringify(e), e])).values()
+    ]
+
+    const outputCss = generateCssModule(deduplicatedClassNames)
 
     return { tsx: outputCode, moduleCss: outputCss, componentName }
 }

@@ -169,3 +169,40 @@ export default Button
         componentName: 'Button'
     })
 })
+
+test('test deduplication, two alike paths with the same value should result in just one class being generated', () => {
+    // language=text
+    const code = `import type { FC } from 'react'
+
+const Button: FC = () => {
+    if (true) return <div className="bg-red-900" />
+    else return <div className="bg-red-900" />
+}
+
+export default Button
+`
+
+    // language=text
+    const expectedCode = `import styles from './Button.module.css'
+import type { FC } from 'react'
+
+const Button: FC = () => {
+    if (true) return <div className={styles['div']} />
+    else return <div className={styles['div']} />
+}
+
+export default Button
+`
+
+    // language=text
+    const expectedCssModule = `.div {
+    @apply bg-red-900;
+}
+`
+
+    expect(transformCode(code)).toEqual({
+        tsx: expectedCode,
+        moduleCss: expectedCssModule,
+        componentName: 'Button'
+    })
+})
