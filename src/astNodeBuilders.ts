@@ -19,4 +19,19 @@ const buildMemberExpression = (newClassName: string): t.MemberExpression =>
 const buildStylesExpression = (newClassName: string): JSXExpressionContainer =>
     t.jsxExpressionContainer(buildMemberExpression(newClassName))
 
-export { addStylesImport, buildStylesExpression, buildMemberExpression }
+const buildObjectProperty = (
+    newClassName: string,
+    oldProperty: t.ObjectProperty
+): t.ObjectProperty =>
+    t.objectProperty(
+        buildMemberExpression(newClassName),
+        oldProperty.value,
+        true
+    )
+
+export {
+    addStylesImport,
+    buildStylesExpression,
+    buildMemberExpression,
+    buildObjectProperty
+}

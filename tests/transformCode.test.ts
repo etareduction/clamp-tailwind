@@ -206,3 +206,56 @@ export default Button
         componentName: 'Button'
     })
 })
+
+test('test conditional classes in classnames() being handled properly', () => {
+    // language=text
+    const code = `import type { FC } from 'react'
+
+const Button: FC = () => (
+    <div 
+        className={classnames('bg-red-900', {
+            'bg-green-900': true,
+            'bg-blue-900': false 
+        })}
+    />
+)
+
+export default Button
+`
+
+    // language=text
+    const expectedCode = `import styles from './Button.module.css'
+import type { FC } from 'react'
+
+const Button: FC = () => (
+    <div
+        className={classnames(styles['div'], {
+            [styles['div-cond']]: true,
+            [styles['div-cond1']]: false
+        })}
+    />
+)
+
+export default Button
+`
+
+    // language=text
+    const expectedCssModule = `.div {
+    @apply bg-red-900;
+}
+
+.div-cond {
+    @apply bg-green-900;
+}
+
+.div-cond1 {
+    @apply bg-blue-900;
+}
+`
+
+    expect(transformCode(code)).toEqual({
+        tsx: expectedCode,
+        moduleCss: expectedCssModule,
+        componentName: 'Button'
+    })
+})
